@@ -46,6 +46,7 @@ class _SettingsState extends State<Settings> {
     TextStyle textStyle = TextStyle(fontsize: 24);
     return Container(
       child: GridView.count(
+        padding: const EdgeInsets.all(20.0),
         scrollDirection: Axis.vertical,
         crossAxisCount: 3,
         childAspectRatio: 3,
@@ -61,8 +62,24 @@ class _SettingsState extends State<Settings> {
             keyboardType: TextInputType.number,
           ),
           SettingsButton(Color(0xff009688), '+', 1, WORKTIME, updateSetting),
+          SettingsButton(Color(0xff455A64), '-', -1, SHORTBREAK, updateSetting),
+          TextField(
+            style: textStyle,
+            controller: txtShort,
+            textAlign: TextAlign.center,
+            keyboardType: TextInputType.number,
+          ),
+          SettingsButton(Color(0xff009688), '+', 1, SHORTBREAK, updateSetting),
+          SettingsButton(Color(0xff455A64), '-', -1, LONGBREAK, updateSetting),
+          TextFiel(
+            style: textStyle,
+            controller: txtLong,
+            textAlign: TextAlign.center,
+            keyboardType: TextInputType.number,
+          ),
+          SettingsButton(Color(0xff009688), '+', 1, LONGBREAK, updateSetting),
         ],
-               
+   
       ),
     );
   }
