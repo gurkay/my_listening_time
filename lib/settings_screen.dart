@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../Widgets/settings_button.dart';
+
 class SettingsScreen extends StatelessWidget{
   @override
   Widget build(BuildContext context){
@@ -51,37 +53,76 @@ class _SettingsState extends State<Settings> {
         mainAxisSpacing: 10,
         children: <Widget>[
           Text('Work', style: textStyle),
-          
+          SettingsButton(Color(0xff455A64), '-', -1, WORKTIME, updateSetting),
+          TextField(
+            style: textStyle,
+            controller: txtWork,
+            textAlign: TextAlign.center,
+            keyboardType: TextInputType.number,
+          ),
+          SettingsButton(Color(0xff009688), '+', 1, WORKTIME, updateSetting),
         ],
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+               
       ),
     );
+  }
+  
+  readSetting() async {
+    prefs = await SharedPreferences.getInstance();
+    int workTime = prefs.getInt(WORKTIME);
+    if(workTime == null) {
+      await prefs.setInt(WORKTIME, int.parse('30'));
+    }
+    int shortBreak = prefs.getInt(SHORTBREAK);
+    if(shortBreak == null) {
+      await prefs.setInt(SHORTBREAK, int.parse('5'));
+    }
+    int longBreak = prefs.getInt(LONGBREAK);
+    if(longBreak == null) {
+      await prefs.setInt(LONGBREAK, int.parse('20'));
+    }
+    setState((){
+      txtWork.text = workTime.toString();
+      txtShort.text = shortBreak.toString();
+      txtLong.text = longBreak.toString();
+    });
+  }
+  
+  void updateSetting(String key, int value){
+    switch (key) {
+      case WORKTIME: {
+        int workTime = prefs.getInt(WORKTIME);
+        workTime += value;
+        if(workTime >= 1 && workTime <= 180) {
+          prefs.setInt(WORKTIME, workTime);
+          setState((){
+            txtWork.text = workTime.toString();
+          });
+        }
+      }
+      break;
+      case SHORTBREAK: {
+        int short = prefs.getInt(SHORTBREAK);
+        short += value;
+        if(short >= 1 && short <= 120) {
+          prefs.setInt(SHORTBREAK, short);
+          setState((){
+            txtShort.text = short.toString();
+          });
+        }
+      }
+      break;
+      case LONGBREAK: {
+        int long = prefs.getInt(LONGBREAK);
+        long += value;
+        if(long >= 1 && long <= 180) {
+          prefs.setInt(LONGBREAK, long);
+          setState((){
+            txtLong.text = long.toString();
+          });
+        }
+      }
+      break;       
+    }
   }
 }
