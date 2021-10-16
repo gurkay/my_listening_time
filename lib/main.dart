@@ -69,7 +69,7 @@ class TimerHomePage extends StatelessWidget {
                     child: ProductivityButton(
                       myColor: Color(0xff009688),
                       myText: 'Work',
-                      mySize: 24.0,
+                      mySize: 20.0,
                       onPressed: () => countDownTimer.startWork(true),
                     ),
                   ),
@@ -77,7 +77,7 @@ class TimerHomePage extends StatelessWidget {
                     child: ProductivityButton(
                       myColor: Color(0xff607D8B),
                       myText: 'Short Break',
-                      mySize: 24.0,
+                      mySize: 20.0,
                       onPressed: () => countDownTimer.startBreak(true),
                     ),
                   ),
@@ -85,7 +85,7 @@ class TimerHomePage extends StatelessWidget {
                     child: ProductivityButton(
                       myColor: Color(0xff455A64),
                       myText: 'Long Break',
-                      mySize: 24.0,
+                      mySize: 20.0,
                       onPressed: () => countDownTimer.startWork(false),
                     ),
                   ),

@@ -47,7 +47,8 @@ class CountDownTimer {
     // longBreak = prefs.getInt('longBreak') == null ? 30 : prefs.getInt('longBreak');
     work = prefs.getInt('workTime') ?? 30;
     shortBreak = prefs.getInt('shortBreak') ?? 30;
-    longBreak = prefs.getInt('longBreak') ?? 30;
+    longBreak =
+        (prefs.getInt('longBreak') == null ? 30 : prefs.getInt('longBreak'))!;
   }
 
   void stopTimer() {
