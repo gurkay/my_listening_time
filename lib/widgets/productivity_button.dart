@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class ProductivityButton extends StatelessWidget {
   final Color myColor;
   final String myText;
-  final double mySize;
   final VoidCallback onPressed;
+  final double mySize;
 
   ProductivityButton({
     required this.myColor,

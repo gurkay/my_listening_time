@@ -1,36 +1,36 @@
 import 'dart:async';
-import './timer_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import './timer_model.dart';
 
 class CountDownTimer {
   double _radius = 1;
   bool _isActive = true;
-  Timer timer;
-  Duration _time;
-  Duration _fullTime;
+  late Timer timer;
+  late Duration _time;
+  late Duration _fullTime;
   int work = 30;
   int shortBreak = 5;
   int longBreak = 20;
-  
+
   String returnTime(Duration t) {
     String minutes = (t.inMinutes < 10)
-      ? '0' + t.inMinutes.toString()
-      : t.inMinutes.toString();
+        ? '0' + t.inMinutes.toString()
+        : t.inMinutes.toString();
     int numSeconds = t.inSeconds - (t.inMinutes * 60);
-    String seconds = (numSeconds < 10)
-      ? '0' + numSeconds.toString()
-      : numSeconds.toString();
+    String seconds =
+        (numSeconds < 10) ? '0' + numSeconds.toString() : numSeconds.toString();
     String formattedTime = minutes + ':' + seconds;
     return formattedTime;
   }
-  
+
   Stream<TimerModel> stream() async* {
-    yield* Stream.periodic(Duration(seconds:1), (int a){
+    yield* Stream.periodic(Duration(seconds: 1), (int a) {
       String time;
-      if(this._isActive) {
+      if (_isActive) {
         _time = _time - Duration(seconds: 1);
         _radius = _time.inSeconds / _fullTime.inSeconds;
-        if(_time.inSeconds <= 0) {
+        if (_time.inSeconds <= 0) {
           _isActive = false;
         }
       }
@@ -38,40 +38,44 @@ class CountDownTimer {
       return TimerModel(time, _radius);
     });
   }
-  
+
   Future readSettings() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    work = prefs.getInt('workTime') == null ? 30 : prefs.getInt('workTime');
-    shortBreak = prefs.getInt('shortBreak') == null ? 30 : prefs.getInt('shortBreak');
-    longBreak = prefs.getInt('longBreak') == null ? 30 : prefs.getInt('longBreak');
+
+    // work = prefs.getInt('workTime') == null ? 30 : prefs.getInt('workTime');
+    // shortBreak = prefs.getInt('shortBreak') == null ? 30 : prefs.getInt('shortBreak');
+    // longBreak = prefs.getInt('longBreak') == null ? 30 : prefs.getInt('longBreak');
+    work = prefs.getInt('workTime') ?? 30;
+    shortBreak = prefs.getInt('shortBreak') ?? 30;
+    longBreak = prefs.getInt('longBreak') ?? 30;
   }
-  
+
   void stopTimer() {
-    this._isActive = false;
+    _isActive = false;
   }
-  
+
   void startTimer() {
-    if(_time.inSeconds > 0) {
-      this._isActive = true;
+    if (_time.inSeconds > 0) {
+      _isActive = true;
     }
   }
-  
-  void startWork() async {
+
+  void startWork(bool bln) async {
     await readSettings();
     _radius = 1;
     _time = Duration(
-      minutes: this.work, 
+      minutes: work,
       seconds: 0,
     );
     _fullTime = _time;
   }
-  
+
   void startBreak(bool isShort) {
     _radius = 1;
     _time = Duration(
       minutes: (isShort) ? shortBreak : longBreak,
       seconds: 0,
     );
-    _fulltime = _time;
+    _fullTime = _time;
   }
 }
