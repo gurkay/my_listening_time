@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
-import 'count_down_timer.dart';
-import 'settings_screen.dart';
-import 'timer_model.dart';
+import 'controllers/count_down_timer.dart';
+import 'screens/settings_screen.dart';
+import 'models/timer_model.dart';
 import 'widgets/productivity_button.dart';
 
 void main() {
@@ -37,7 +37,7 @@ class TimerHomePage extends StatelessWidget {
       value: 'Settings',
       child: Text('Settings'),
     ));
-    countDownTimer.startWork(true);
+    countDownTimer.startWork();
     return MaterialApp(
       title: 'My Work Timer',
       theme: ThemeData(primarySwatch: Colors.blueGrey),
@@ -70,7 +70,7 @@ class TimerHomePage extends StatelessWidget {
                       myColor: Color(0xff009688),
                       myText: 'Work',
                       mySize: 20.0,
-                      onPressed: () => countDownTimer.startWork(true),
+                      onPressed: () => countDownTimer.startWork(),
                     ),
                   ),
                   Expanded(
@@ -86,7 +86,7 @@ class TimerHomePage extends StatelessWidget {
                       myColor: Color(0xff455A64),
                       myText: 'Long Break',
                       mySize: 20.0,
-                      onPressed: () => countDownTimer.startWork(false),
+                      onPressed: () => countDownTimer.startBreak(false),
                     ),
                   ),
                 ],

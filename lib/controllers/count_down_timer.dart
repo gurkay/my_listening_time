@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import './timer_model.dart';
+import '../models/timer_model.dart';
 
 class CountDownTimer {
   double _radius = 1;
@@ -47,8 +47,7 @@ class CountDownTimer {
     // longBreak = prefs.getInt('longBreak') == null ? 30 : prefs.getInt('longBreak');
     work = prefs.getInt('workTime') ?? 30;
     shortBreak = prefs.getInt('shortBreak') ?? 30;
-    longBreak =
-        (prefs.getInt('longBreak') == null ? 30 : prefs.getInt('longBreak'))!;
+    longBreak = prefs.getInt('longBreak') ?? 40;
   }
 
   void stopTimer() {
@@ -61,7 +60,7 @@ class CountDownTimer {
     }
   }
 
-  void startWork(bool bln) async {
+  void startWork() async {
     await readSettings();
     _radius = 1;
     _time = Duration(
