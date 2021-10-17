@@ -25,10 +25,10 @@ class CountDownTimer {
   }
 
   Stream<TimerModel> stream() async* {
-    yield* Stream.periodic(Duration(seconds: 1), (int a) {
+    yield* Stream.periodic(const Duration(seconds: 1), (int a) {
       String time;
       if (_isActive) {
-        _time = _time - Duration(seconds: 1);
+        _time = _time - const Duration(seconds: 1);
         _radius = _time.inSeconds / _fullTime.inSeconds;
         if (_time.inSeconds <= 0) {
           _isActive = false;
@@ -41,12 +41,11 @@ class CountDownTimer {
 
   Future readSettings() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    // work = prefs.getInt('workTime') == null ? 30 : prefs.getInt('workTime');
-    // shortBreak = prefs.getInt('shortBreak') == null ? 30 : prefs.getInt('shortBreak');
-    // longBreak = prefs.getInt('longBreak') == null ? 30 : prefs.getInt('longBreak');
-    work = prefs.getInt('workTime') ?? 30;
-    shortBreak = prefs.getInt('shortBreak') ?? 30;
+    // work = prefs.getInt('workTime') == null ? 20 : prefs.getInt('workTime');
+    // shortBreak = prefs.getInt('shortBreak') == null ? 5 : prefs.getInt('shortBreak');
+    // longBreak = prefs.getInt('longBreak') == null ? 40 : prefs.getInt('longBreak');
+    work = prefs.getInt('workTime') ?? 20;
+    shortBreak = prefs.getInt('shortBreak') ?? 5;
     longBreak = prefs.getInt('longBreak') ?? 40;
   }
 
@@ -70,10 +69,10 @@ class CountDownTimer {
     _fullTime = _time;
   }
 
-  void startBreak(bool isShort) {
+  void startBreak(bool value) {
     _radius = 1;
     _time = Duration(
-      minutes: (isShort) ? shortBreak : longBreak,
+      minutes: (value) ? shortBreak : longBreak,
       seconds: 0,
     );
     _fullTime = _time;
